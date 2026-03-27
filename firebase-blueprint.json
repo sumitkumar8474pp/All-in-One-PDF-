@@ -1,0 +1,42 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "photoURL": { "type": "string", "format": "uri", "description": "User profile photo URL" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" }
+      },
+      "required": ["uid", "email"]
+    },
+    "PDFDocument": {
+      "title": "PDF Document",
+      "description": "Metadata for a generated or uploaded PDF document",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique document ID" },
+        "ownerId": { "type": "string", "description": "UID of the document owner" },
+        "name": { "type": "string", "description": "Name of the PDF file" },
+        "url": { "type": "string", "format": "uri", "description": "URL to the file in Firebase Storage" },
+        "type": { "type": "string", "enum": ["image-to-pdf", "merge", "split"], "description": "Type of PDF operation" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "size": { "type": "number", "description": "File size in bytes" }
+      },
+      "required": ["id", "ownerId", "name", "url", "type", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile document"
+    },
+    "/users/{userId}/documents/{docId}": {
+      "schema": "PDFDocument",
+      "description": "Collection of PDF documents owned by the user"
+    }
+  }
+}
